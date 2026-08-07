@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -6,10 +6,12 @@ export default async function handler(req, res) {
     });
   }
 
+  const data = req.body;
+
+  console.log("DATA DARI MT5:", data);
+
   return res.status(200).json({
     status: "received",
-    message: "MT5 connected successfully"
+    data: data
   });
-
 }
-
