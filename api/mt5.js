@@ -6,12 +6,11 @@ export default function handler(req, res) {
     });
   }
 
-  const data = req.body;
+  console.log(req.body);
 
-  console.log("DATA DARI MT5:", data);
-
-  return res.status(200).json({
-    status: "received",
-    data: data
+  res.status(200).json({
+    status: "MT5 received",
+    data: req.body
   });
+
 }
