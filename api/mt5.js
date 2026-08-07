@@ -11,33 +11,46 @@ export default async function handler(req, res) {
     const market = req.body;
 
     const prompt = `
-You are a trading assistant.
+You are a trading assistant for XAUUSD.
 
-Market Data:
+Analyze this market data:
+
 ${JSON.stringify(market)}
 
-Reply with exactly this sentence:
+Return ONLY valid JSON.
+No explanation.
 
-MT5 and Groq are connected successfully.
+Format:
+
+{
+  "signal":"BUY or SELL or WAIT",
+  "lot":0.01,
+  "sl":0,
+  "tp":0,
+  "reason":"short reason"
+}
 `;
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        temperature: 0,
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ]
-      })
-    });
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          temperature: 0,
+          messages: [
+            {
+              role: "user",
+              content: prompt
+            }
+          ]
+        })
+      }
+    );
 
     const ai = await response.json();
 
